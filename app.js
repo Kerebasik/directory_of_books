@@ -1,16 +1,25 @@
 const express = require("express");
-const MongoClient = require("mongodb").MongoClient;
-const ObjectId = require("mongodb").ObjectId;
 const process = require("node:process");
+const mongoose = require("mongoose");
 
-const mongoClient = new MongoClient("mongodb://127.0.0.1:27017/");
+mongoose.set('strictQuery', true)
+
 const app = express();
+const Schema = mongoose.Schema;
+
+const bookSchema = new Schema({
+    name: String,
+    author: String,
+    description: String
+})
+
+const Book = mongoose.model("Book", bookSchema);
+
 app.use(express.json());
 
 (async ()=>{
     try {
-        await mongoClient.connect();
-        app.locals.collection = mongoClient.db("booksdb").collection("books");
+        await mongoose.connect("mongodb://127.0.0.1:27017/booksdb");
         app.listen(3000, ()=> console.log("Port 3000 is open....."))
     } catch (err){
         console.error(err)
@@ -18,25 +27,23 @@ app.use(express.json());
 })();
 
 app.get('/books', async function (req, res){
-    const collection = req.app.locals.collection;
-    try{
-        const books = await collection.find({}).toArray();
-        res.send(books);
+    try {
+        const book = await Book.find({});
+        res.send(book)
     } catch (err){
-        console.log(err);
-        res.sendStatus(500);
+        console.error(err)
+        res.sendStatus(500)
     }
 })
 
 app.get("/books/:id", async function (req, res){
-    const collection = req.app.locals.collection;
-    const id = new ObjectId(req.params.id);
-    try{
-        const book = await collection.findOne({_id:id});
+    const id = req.params.id
+    try {
+        const book = await Book.find({_id:id});
         if(book) res.send(book);
         else res.sendStatus(404);
-    } catch (err) {
-        console.error(err)
+    } catch (err){
+        console.log(err);
         res.sendStatus(500);
     }
 
@@ -44,12 +51,11 @@ app.get("/books/:id", async function (req, res){
 
 app.put("/book/:id", async function (req, res){
     if(!req.body) return res.sendStatus(400);
-    const collection = app.locals.collection;
+    const id = req.params.id
+    const newBook = {...req.body}
     try {
-        const bookId = new ObjectId(req.params.id);
-        const result = await collection.findOneAndUpdate({_id:bookId},{
-            $set:{...req.body}},{returnDocument: "after"})
-        if (result.value) res.send(result.value);
+        const result = await Book.findOneAndUpdate({_id:id}, newBook, {new:true});
+        if (result) res.send(result);
         else res.sendStatus(404);
     } catch (err){
         console.error(err)
@@ -58,11 +64,10 @@ app.put("/book/:id", async function (req, res){
 })
 
 app.delete("/book/:id",  async function (req, res){
-    const bookId = new ObjectId(req.params.id);
-    const collection = req.app.locals.collection;
+    const idBook = req.params.id
     try{
-        const result = await collection.findOneAndDelete({_id:bookId})
-        if(result.value) res.send(result.value);
+        const result = await Book.findByIdAndDelete(idBook)
+        if(result) res.send(result);
         else res.sendStatus(404);
     } catch (err) {
         console.error(err);
@@ -72,18 +77,18 @@ app.delete("/book/:id",  async function (req, res){
 
 app.post("/books", async function (req, res){
     if(!req.body) return res.sendStatus(400);
-    const collection = req.app.locals.collection;
     const bookName = req.body.name;
     const bookAuthor = req.body.author;
     const bookDescription = req.body.description;
-    const book = {
+    const newBook = {
         name: bookName,
         author:bookAuthor,
         description:bookDescription
     }
     try {
-        await collection.insertOne(book);
-        res.send(book)
+        const book = new Book(newBook);
+        await book.save();
+        res.send(book);
     }
      catch (err){
         console.error(err);
@@ -92,6 +97,6 @@ app.post("/books", async function (req, res){
 })
 
 process.on("SIGINT",  async ()=>{
-    await mongoClient.close().then(()=> console.log("App close"))
+    await mongoose.disconnect();
     process.exit();
 })
