@@ -1,8 +1,6 @@
-import express from "express";
-import mongoose from "mongoose";
-
-import router from "./src/routers/router.js";
-
+const express = require("express");
+const mongoose = require("mongoose");
+const router = require("./src/routers/router.js");
 
 const app = express();
 
@@ -22,3 +20,5 @@ async function startApp(){
 }
 
 startApp().then(()=> console.log("Port 3000 is open....."));
+
+module.exports = app;

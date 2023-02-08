@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+const mongoose = require("mongoose");
 
 mongoose.set('strictQuery', true)
 
@@ -8,4 +8,4 @@ const bookSchema = new mongoose.Schema( {
     description: String
 })
 
-export default mongoose.model('Book', bookSchema);
+module.exports = mongoose.model('Book', bookSchema);

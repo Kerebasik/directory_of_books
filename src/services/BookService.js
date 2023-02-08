@@ -1,31 +1,31 @@
-import Book from "../models/BookSchema.js";
+const Book = require("../models/BookSchema.js");
 
 class BookService {
-    async create(post){
+    static async create(post){
         if(!post){
             throw new Error("Not Post");
         }
         return Book.create(post);
     }
-    async findOne(id){
+    static async findOne(id){
         if(!id){
             throw  new Error('Not Id')
         }
         return Book.find({_id:id});
     }
 
-    async findAll(){
+    static async findAll(){
         return Book.find({});
     }
 
-    async update(post){
+    static async update(post){
         if(!post){
             throw new Error("Not Post")
         }
-        return Book.findOneAndUpdate({_id:post._id});
+        return Book.findOneAndUpdate(post._id, post, {new:true});
     }
 
-    async delete(id){
+    static async delete(id){
         if(!id){
             throw new Error("Not ID")
         }
@@ -33,4 +33,4 @@ class BookService {
     }
 }
 
-export default new BookService()
+module.exports = { BookService };
