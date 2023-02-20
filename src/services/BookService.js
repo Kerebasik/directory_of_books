@@ -31,6 +31,13 @@ class BookService {
         }
         return Book.findByIdAndDelete(id);
     }
+
+    static async findName(name){
+        if(!name){
+            throw  new Error('Not name')
+        }
+        return Book.find({name:name});
+    }
 }
 
 module.exports = { BookService };
