@@ -9,7 +9,7 @@ class BookService {
     }
     static async findOne(id){
         if(!id){
-            throw  new Error('Not Id')
+            throw new Error('Not Id')
         }
         return Book.find({_id:id});
     }
@@ -23,7 +23,7 @@ class BookService {
             throw new Error("Not Post")
         }
         return Book.findOneAndUpdate(post._id, post, {new:true});
-    }
+    };
 
     static async delete(id){
         if(!id){
