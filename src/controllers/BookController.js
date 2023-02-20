@@ -39,10 +39,10 @@ class BookController {
 
     static async update(req, res){
         if(!req.body) return res.sendStatus(400);
-        const {post} = req.body
+        const post = req.body
             try {
                 const result = await BookService.update(post);
-                if (result) res.json({result});
+                if (result) res.json(result);
                 else res.sendStatus(404);
             } catch (err){
                 console.error(err);

@@ -22,7 +22,7 @@ class BookService {
         if(!post){
             throw new Error("Not Post")
         }
-        return Book.findOneAndUpdate(post._id, post, {new:true});
+        return Book.findOneAndUpdate({_id:post._id}, post, {new:true});
     };
 
     static async delete(id){
