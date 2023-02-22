@@ -44,15 +44,16 @@ describe('Test functionality BookService',()=>{
     });
 
     it('findOne',  (done)=>{
-        new Promise((resolve)=>{
-            resolve(BookService.findOne("63e640d9b8658af490156574"));
+        new Promise(async (resolve)=>{
+            buffer = await BookService.findAll();
+            resolve(BookService.findOne(buffer[4]._id));
         }).then((result)=>{
-            expect(result).to.be.a('array')
+            expect(result).to.be.a('array');
             expect(result[0]).to.be.a('object');
-            expect(result[0]).to.have.property('name')
-            expect(result[0]).to.have.property('author')
-            expect(result[0]).to.have.property('description')
-            expect(result[0]).to.have.property('_id')
+            expect(result[0]).to.have.property('name').with.eql(buffer[4].name);
+            expect(result[0]).to.have.property('author').with.eql(buffer[4].author);
+            expect(result[0]).to.have.property('description').with.eql(buffer[4].description);
+            expect(result[0]).to.have.property('_id').with.eql(buffer[4]._id);
             done()
         }).finally(()=>{
             BookService.delete(buffer._id);

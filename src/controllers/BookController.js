@@ -17,6 +17,9 @@ class BookController {
 
     static async findOne(req, res){
         const {id} = req.params
+        if(id.length > 24 || id.length < 24){
+            res.sendStatus(400);
+        }
         try {
             const book = await BookService.findOne(id);
             if(book) res.json({book});
@@ -41,8 +44,8 @@ class BookController {
         if(!req.body) return res.sendStatus(400);
         const post = req.body
             try {
-                const result = await BookService.update(post);
-                if (result) res.json(result);
+                const book = await BookService.update(post);
+                if (book) res.json({book});
                 else res.sendStatus(404);
             } catch (err){
                 console.error(err);
@@ -52,9 +55,12 @@ class BookController {
 
     static async delete(req, res){
         const {id} = req.params
+        if(id.length > 24 || id.length < 24){
+                res.sendStatus(400);
+        }
         try{
-            const result = await BookService.delete(id);
-            if(result) res.send(result);
+            const book = await BookService.delete(id);
+            if(book) res.json({book});
             else res.sendStatus(404);
         } catch (err) {
             console.error(err);
@@ -62,11 +68,11 @@ class BookController {
         }
     }
 
-    static async search(req, res){
+    static async findName(req, res){
         const {name} = req.query;
         try{
-            const result = await BookService.findName(name)
-            if(result && !!result.length) res.send(result);
+            const book = await BookService.findName(name)
+            if(book && !! book.length) res.json({book});
             else res.sendStatus(404);
         } catch (err){
             console.error(err);
