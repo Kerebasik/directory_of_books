@@ -81,7 +81,7 @@ describe('Testing Api', function (){
             resolve(buffer)
         }).then((result)=> {
             chai.request(app)
-                .get('/api/books/'+ buffer._id)
+                .get('/api/books/'+ result._id)
                 .end((err, res)=>{
                     expect(err).to.be.null;
                     expect(res).to.be.json;
