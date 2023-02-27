@@ -1,7 +1,7 @@
 const chai = require('chai');
 const expect = chai.expect;
 
-const BookService = require('../src/services/BookService.js').BookService;
+const BookService = require('../src/services/bookService.js').BookService;
 
 const newPost = {
     name: "Test",

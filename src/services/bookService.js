@@ -1,4 +1,4 @@
-const Book = require("../models/BookSchema.js");
+const Book = require("../models/bookSchema.js");
 
 class BookService {
     static async create(post){

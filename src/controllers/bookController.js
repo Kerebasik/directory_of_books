@@ -1,4 +1,4 @@
-const BookService = require("../services/BookService.js").BookService;
+const BookService = require("../services/bookService.js").BookService;
 
 class BookController {
 
