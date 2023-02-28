@@ -32,11 +32,18 @@ class BookService {
         return Book.findByIdAndDelete(id);
     }
 
-    static async findName(name){
+    static async findByName(name){
         if(!name){
             throw  new Error('Not name')
         }
         return Book.find({name:name});
+    }
+
+    static async findByAuthor(author){
+        if(!author){
+            throw new Error('Not author')
+        }
+        return Book.find({author: author})
     }
 }
 

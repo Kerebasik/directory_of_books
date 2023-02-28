@@ -68,10 +68,18 @@ class BookController {
         }
     }
 
-    static async findName(req, res){
-        const {name} = req.query;
+    static async findBook(req, res){
+        const {data, typeSearch} = req.query;
+        let book;
         try{
-            const book = await BookService.findName(name)
+            switch (typeSearch){
+                case 'author':
+                    book = await BookService.findByAuthor(data)
+                    break;
+                case 'name':
+                    book = await BookService.findByName(data);
+                    break;
+            }
             if(book && !! book.length) res.json({book});
             else res.sendStatus(404);
         } catch (err){
