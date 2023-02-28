@@ -87,13 +87,34 @@ describe('Test functionality BookService',()=>{
             done()
         });
     });
-    it('findName',(done)=>{
+    it('findByName',(done)=>{
         new Promise(async (resolve)=>{
             buffer = await BookService.create(newPost);
-            resolve(BookService.findName(buffer.name));
+            resolve(BookService.findByName(buffer.name));
         }).then((result)=>{
             expect(result[0]).to.be.a('object');
             expect(result).to.be.a('array');
+            expect(result[0]).to.have.property('_id');
+            expect(result[0]).to.have.property('name').with.eql(buffer.name);
+            expect(result[0]).to.have.property('author');
+            expect(result[0]).to.have.property('description');
+            done()
+        }).finally(()=>{
+            BookService.delete(buffer._id);
+        })
+    });
+
+    it('findByAuthor',(done)=>{
+        new Promise(async (resolve)=>{
+            buffer = await BookService.create(newPost);
+            resolve(BookService.findByAuthor(buffer.author));
+        }).then((result)=>{
+            expect(result[0]).to.be.a('object');
+            expect(result).to.be.a('array');
+            expect(result[0]).to.have.property('_id');
+            expect(result[0]).to.have.property('name').with.eql(buffer.author);
+            expect(result[0]).to.have.property('author');
+            expect(result[0]).to.have.property('description');
             done()
         }).finally(()=>{
             BookService.delete(buffer._id);
