@@ -4,9 +4,13 @@ class BookController {
 
     static async create(req,res){
         if(!req.body) return res.sendStatus(400);
-        const {name, author, description} = req.body;
+        let image;
+        if(!!req.file){
+            image = req.file.filename;
+        }
+        const {name, author, description, tags} = req.body;
         try {
-            const book = await BookService.create({name, author, description});
+            const book = await BookService.create({name, author, description, tags, image});
             res.json({book});
         }
         catch (err){
@@ -42,9 +46,14 @@ class BookController {
 
     static async update(req, res){
         if(!req.body) return res.sendStatus(400);
-        const post = req.body
+        let image
+        if(!!req.file){
+            image = req.file.filename
+        }
+        const {_id, name, author, description, tags} = req.body;
             try {
-                const book = await BookService.update(post);
+                const book = await BookService.update({_id, name, author, description, tags, image});
+                console.log("book", book)
                 if (book) res.json({book});
                 else res.sendStatus(404);
             } catch (err){
