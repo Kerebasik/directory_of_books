@@ -53,7 +53,6 @@ class BookController {
         const {_id, name, author, description, tags} = req.body;
             try {
                 const book = await BookService.update({_id, name, author, description, tags, image});
-                console.log("book", book)
                 if (book) res.json({book});
                 else res.sendStatus(404);
             } catch (err){
