@@ -1,0 +1,350 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "version": "1.0.0",
+    "title": "REST API BOOK OF DIRECTORY",
+    "description": "My PET project book of directory"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Book",
+      "description": "API for book in system"
+    }
+  ],
+  "paths": {
+    "/books": {
+      "get": {
+        "tags": [
+          "Book"
+        ],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "$ref": "#/components/schemas/Book"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "type": "array",
+                  "$ref": "#/components/schemas/Book"
+                }
+              }
+            },
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Book"
+        ],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Book"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Book"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "author"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "author": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "tags": {
+                    "type": "array",
+                    "example": [
+                      "tag1",
+                      "tag2",
+                      "tag3"
+                    ]
+                  },
+                  "image": {
+                    "type": "object",
+                    "example": "File jpg, png, jpeg"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Book"
+        ],
+        "description": "",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Book"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Book"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        },
+        "requestBody": {
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "required": [
+                  "name",
+                  "author"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string"
+                  },
+                  "author": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "tags": {
+                    "type": "array",
+                    "example": [
+                      "tag1",
+                      "tag2",
+                      "tag3"
+                    ]
+                  },
+                  "image": {
+                    "type": "object",
+                    "example": "File jpg, png, jpeg"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/books/search": {
+      "get": {
+        "tags": [
+          "Book"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "query",
+            "description": "Data for search",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "typeSearch",
+            "in": "query",
+            "description": "Author or name",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Book"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Book"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/books/{id}": {
+      "get": {
+        "tags": [
+          "Book"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Book"
+                }
+              },
+              "application/xml": {
+                "schema": {
+                  "$ref": "#/components/schemas/Book"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    },
+    "/book/{id}": {
+      "delete": {
+        "tags": [
+          "Book"
+        ],
+        "description": "",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not Found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Book": {
+        "type": "object",
+        "required": [
+          "name",
+          "author"
+        ],
+        "properties": {
+          "_id": {
+            "type": "string"
+          },
+          "author": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "tags": {
+            "type": "array",
+            "example": [
+              "tag1",
+              "tag2",
+              "tag3"
+            ]
+          },
+          "image": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

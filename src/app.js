@@ -1,10 +1,14 @@
 const express = require("express");
 const mongoose = require("mongoose");
-const router = require("./src/routes/bookRouter.js");
-const fileMulter = require('./src/middlewares/multerConfig.js')
+const router = require("./routes/bookRouter.js");
+const fileMulter = require('./middlewares/multerConfig.js')
+const swaggerUi = require('swagger-ui-express')
+const swaggerFile = require('./swagger_output.json')
+
 
 const PORT = 3000
-const DB_URL = "mongodb+srv://Kerebasik:12345@atlascluster.5oe5ool.mongodb.net/?retryWrites=true&w=majority";
+const DB_URL = "mongodb://127.0.0.1:27017/booksdb";
+//const DB_URL = "mongodb+srv://Kerebasik:12345@atlascluster.5oe5ool.mongodb.net/?retryWrites=true&w=majority";
 
 const app = express();
 
@@ -13,6 +17,7 @@ app.use(express.static("uploads"));
 app.use(fileMulter.single("image"));
 
 app.use('/api', router)
+app.use('/doc-api', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 async function startApp(){
     try {

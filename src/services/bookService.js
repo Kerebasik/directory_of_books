@@ -5,7 +5,8 @@ class BookService {
         if(!post){
             throw new Error("Not Post");
         }
-        return Book.create(post);
+        const newBook = await Book.create(post);
+        return newBook
     }
     static async findOne(id){
         if(!id){
