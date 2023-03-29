@@ -5,11 +5,12 @@
   "main": "src/app.js",
   "scripts": {
     "start": "node src/app.js",
+    "swagger-start": "node src/swagger.js",
     "test:unit": "mocha tests/bookService.test.js",
     "test:api": "mocha --timeout 10000 tests/bookController.test.js",
     "dev": "nodemon src/app.js"
   },
-  "author": "",
+  "author": "Kerebasik",
   "license": "ISC",
   "dependencies": {
     "express": "~4.18.2",

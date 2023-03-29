@@ -40,7 +40,7 @@
                   "$ref": "#/components/schemas/Book"
                 }
               }
-            },
+            }
           },
           "500": {
             "description": "Internal Server Error"
