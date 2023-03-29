@@ -9,7 +9,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        node-version: [16.x]
+        node-version: [14.x, 16.x, 18.x]
         mongodb-version: ['4.2', '4.4', '5.0', '6.0']
     steps:
       - uses: actions/checkout@v3
@@ -24,4 +24,4 @@ jobs:
       - name: install modules
         run: npm install
       - name: tests
-        run: npm run test:unit
+        run: npm run unit

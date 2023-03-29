@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node src/app.js",
     "swagger-start": "node src/swagger.js",
-    "test:unit": "mocha tests/bookService.test.js",
+    "unit": "mocha tests/bookService.test.js",
     "test:api": "mocha --timeout 10000 tests/bookController.test.js",
     "dev": "nodemon src/app.js"
   },
