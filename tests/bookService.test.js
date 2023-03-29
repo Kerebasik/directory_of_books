@@ -9,7 +9,7 @@ function sum(arg1, arg2){
 console.log(sum(1,1))
 
 describe('default test',()=>{
-    it('sum',()=>assert.equal(sum(1,1),3))
+    it('sum',()=>assert.equal(sum(1,1),2))
 })
 
 /*
