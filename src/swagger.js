@@ -5,7 +5,7 @@ const doc = {
     info: {
         version: '1.0.0',      // by default: '1.0.0'
         title: 'REST API BOOK OF DIRECTORY',        // by default: 'REST API'
-        description: 'My PET project book of directory',  // by default: ''
+        description: 'My project: book of directory',  // by default: ''
     },
     servers:[{ url:"http://localhost:3000/api"}],      // by default: 'localhost:3000'
     schemes: ['http'],   // by default: ['http']
