@@ -5,17 +5,19 @@ const router = require("./routes/bookRouter.js");
 const fileMulter = require('./middlewares/multerConfig.js')
 const swaggerUi = require('swagger-ui-express')
 const swaggerFile = require('./swagger_output.json')
+const cors = require('cors')
 
 const PORT = process.env.PORT || 5000
-const DB_URL = process.env.DB_URL || "mongodb://mongodb:27017/booksdb";
+const DB_URL = "mongodb://127.0.0.1:27017/booksdb";
 
 const app = express();
+app.use(cors())
 app.use(express.json());
 app.use(express.static("uploads"));
 app.use(fileMulter.single("image"));
 
 app.use('/api', router)
-app.use('/doc-api', swaggerUi.serve, swaggerUi.setup(swaggerFile))
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerFile))
 
 async function startApp(){
     try {
@@ -29,12 +31,6 @@ async function startApp(){
 startApp().then(()=> {
     console.log(DB_URL)
     console.log(`Port ${PORT}  is open....`)
-});
-
-process.on("SIGINT", async() => {
-    await mongoose.disconnect();
-    console.log("Приложение завершило работу");
-    process.exit();
 });
 
 module.exports = app;
