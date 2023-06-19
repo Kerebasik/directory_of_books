@@ -1,4 +1,5 @@
 const BookService = require("../services/bookService.js").BookService;
+const fs = require('fs');
 
 class BookController {
 
@@ -45,12 +46,12 @@ class BookController {
             image = req.file.filename;
         }
         const {name, author, description, tags} = req.body;
-        if(!!name || !!author){
+        if(!name || !author){
             res.sendStatus(400)
         }
         try {
             const book = await BookService.create({name, author, description, tags, image});
-            res.status(200).json({book});
+            res.status(200).json(book);
             /* #swagger.responses[200] = {
                    schema: { "$ref": "#/definitions/Book" },
             } */
@@ -69,7 +70,7 @@ class BookController {
         }
         try {
             const book = await BookService.findOne(id);
-            if(book) res.json({book});
+            if(book) res.json(book);
             else res.sendStatus(404);
             /* #swagger.responses[200] = {
                    schema: { "$ref": "#/definitions/Book" },
@@ -82,10 +83,9 @@ class BookController {
 
     static async findAll(req, res){
         // #swagger.tags = ['Book']
-
         try {
             const book = await BookService.findAll();
-            res.status(200).json({book});
+            res.status(200).json(book);
             /* #swagger.responses[200] = {
                    schema: {
                    type: "array",
@@ -139,20 +139,25 @@ class BookController {
         if(!!req.file){
             image = req.file.filename
         }
+
         const {_id, name, author, description, tags} = req.body;
             try {
-                if(!!name || !!author){
-                    res.sendStatus(400)
+                if(!_id && !name && !author){
+                    return res.sendStatus(400)
                 }
+                const bookData = await BookService.findOne(_id);
+                // if(!!bookData[0].image){
+                //     fs.unlinkSync(`uploads/${bookData[0].image}`)
+                // }
                 const book = await BookService.update({_id, name, author, description, tags, image});
-                if (book) res.status(200).json({book});
+                if (book) return res.status(200).json(book);
                 /* #swagger.responses[200] = {
                    schema: { "$ref": "#/definitions/Book" },
                 } */
-                else res.sendStatus(404);
+                else return  res.sendStatus(404);
             } catch (err){
                 console.error(err);
-                res.sendStatus(500);
+                return res.sendStatus(500);
             }
     };
 
@@ -164,6 +169,7 @@ class BookController {
         }
         try{
             const book = await BookService.delete(id);
+            fs.unlinkSync(`uploads/${book[0].image}`)
             if(book) res.status(201).json();
             else res.sendStatus(404);
         } catch (err) {
@@ -195,7 +201,7 @@ class BookController {
                     book = await BookService.findByName(data);
                     break;
             }
-            if(book && !! book.length) res.status(200).json({book});
+            if(book && !! book.length) res.status(200).json(book);
             /* #swagger.responses[200] = {
                    schema: { "$ref": "#/definitions/Book" },
                 } */
