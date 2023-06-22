@@ -146,9 +146,9 @@ class BookController {
                     return res.sendStatus(400)
                 }
                 const bookData = await BookService.findOne(_id);
-                // if(!!bookData[0].image){
-                //     fs.unlinkSync(`uploads/${bookData[0].image}`)
-                // }
+                if(!!bookData[0].image){
+                    fs.unlinkSync(`uploads/${bookData[0]?.image}`)
+                }
                 const book = await BookService.update({_id, name, author, description, tags, image});
                 if (book) return res.status(200).json(book);
                 /* #swagger.responses[200] = {
@@ -169,7 +169,9 @@ class BookController {
         }
         try{
             const book = await BookService.delete(id);
-            fs.unlinkSync(`uploads/${book[0].image}`)
+            if(book[0]?.image){
+                fs.unlinkSync(`uploads/${book[0]?.image}`)
+            }
             if(book) res.status(201).json();
             else res.sendStatus(404);
         } catch (err) {
