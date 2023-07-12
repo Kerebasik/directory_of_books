@@ -1,19 +1,12 @@
-const chai = require('chai');
+/*const chai = require('chai');
+const buffer = require("buffer");
 //const expect = chai.expect;
 assert = chai.assert;
+const BookService = require('../src/services/bookService.js').BookService;
 
 function sum(arg1, arg2){
     return arg1 + arg2
 }
-
-console.log(sum(1,1))
-
-describe('default test',()=>{
-    it('sum',()=>assert.equal(sum(1,1),2))
-})
-
-/*
-const BookService = require('../src/services/bookService.js').BookService;
 
 const newPost = {
     name: "Test",
